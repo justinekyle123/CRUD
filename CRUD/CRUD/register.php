@@ -60,7 +60,7 @@
         ?>
 
         <form action="register.php" method="post">
-            <div class="form-group mb-3">
+            <div class="form-group mb-3 mt-3">
                 <input type="text" class="form-control" name="username" id="username" placeholder="Userame">
             </div>
             <div class="form-group mb-3">
