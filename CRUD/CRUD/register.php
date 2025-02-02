@@ -16,6 +16,8 @@
             $password = $_POST['password'];
             $repeatpassword = $_POST['repeatpassword'];
 
+            $passwordhash = password_hash($password, PASSWORD_DEFAULT);
+
             $error = array();
 
             if(empty($username)|| empty($username)|| empty($username)|| empty($username)){
@@ -47,7 +49,7 @@
                 $stmt = mysqli_stmt_init($con);
                 $prepareStmt = mysqli_stmt_prepare($stmt,$sql);
                 if($prepareStmt){
-                    mysqli_stmt_bind_param($stmt,"sss",$username,$email,$password);
+                    mysqli_stmt_bind_param($stmt,"sss",$username,$email,$passwordhash);
                     mysqli_stmt_execute($stmt);
                         echo "<div class='alert alert-success'>You are registered!</div>";
                 }else{
@@ -76,6 +78,9 @@
                 <input type="submit" class=" btn btn-primary" name="submit" value="register">
             </div>
         </form>
+        <div class="mt-3">
+            <p>Already registered?<a href="login.php"> login here</a></p>
+        </div>
     </div>
 </body>
 </html>
