@@ -1,59 +1,72 @@
 <?php include("includes/header.php"); ?>
 
-<!--INSERT Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">INSERT DATA</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        
-        <div class="form-group mb-3">
-            <label for="" class="ms-2">Name</label>
-            <input type="text" class="form-control" name="name" placeholder="enter name">
-        </div>
-        <div class="form-group mb-3">
-            <label for="" class="ms-2">Email</label>
-            <input type="email" class="form-control" name="email" placeholder="enter email">
-        </div>
-        <div class="form-group mb-3">
-            <label for="" class="ms-2">Password</label>
-            <input type="password" class="form-control" name="password" placeholder="enter password">
-        </div>
-        <div class="form-group mb-3">
-            <label for="" class="ms-2">Repeat Password</label>
-            <input type="password" class="form-control" name="repeatpass" placeholder="repeat password">
-        </div>
+<?php
+session_start();
 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Insert</button>
-      </div>
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    // If not, redirect to login page
+    header('Location: login.php');
+    exit();
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+    <div class="container my-5">
+        <h2>List of Students</h2>
+        <a href="create.php" class="btn btn-primary">New Student</a>
+        <br>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Last Name</th>
+                    <th>Age</th>
+                    <th>Created At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php 
+                    include_once("db.php");
+
+                    $sql = "SELECT * FROM students ";
+                    $result = $con->query($sql);
+
+                    if(!$result){
+                        die($con->error);
+                    }
+                        while($row = $result->fetch_assoc()){
+                            echo " <tr>
+                    <td>$row[id]</td>
+                    <td>$row[firstname]</td>
+                    <td>$row[lastname]</td>
+                    <td>$row[age]</td>
+                    <td>$row[created]</td>
+                    <td>
+                        <a href='edit.php?id=$row[id]' class='btn btn-primary btn-sm'>Edit</a>
+                        <a href='delete.php?id=$row[id]' class='btn btn-danger btn-sm'>Delete</a>
+                    </td>
+                </tr>
+                ";
+                        }
+                ?>
+               
+            </tbody>
+        </table>
     </div>
-  </div>
-</div>
+</body>
+</html>
 
-   <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 >PHP CRUD</h4>
-                        <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Insert Student  
-                        </button>
-                    </div>
 
-                    <div class="card-body">
-                
-                    </div>
-
-                </div>
-            </div>
-        </div>
-   </div>
-   
  <?php include("includes/footer.php"); ?>
